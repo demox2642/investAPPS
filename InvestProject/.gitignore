@@ -18,3 +18,7 @@ captures
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 **/integration/src/main/kotlin/org/example/integration/utils/Settings.kt
+**/integration/src/main/kotlin/org/example/integration/build/*
+**/integration/src/main/kotlin/org/example/shared/build/*
+**/integration/src/main/kotlin/org/example/composeApp/build/*
+*/.fleet/*
