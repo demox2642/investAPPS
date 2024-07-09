@@ -1,0 +1,80 @@
+package org.example.integration.models.etf
+
+import kotlinx.serialization.Serializable
+import org.example.integration.dataBase.etf.EtfDTO
+import org.example.integration.models.BrandTinkoffResponse
+import org.example.integration.models.MinPriceIncrementTinkoffResponse
+
+@Serializable
+data class EtfTinkoffResponse(
+    val apiTradeAvailableFlag: Boolean,
+    val assetUid: String,
+    val blockedTcaFlag: Boolean,
+    val brand: BrandTinkoffResponse,
+    val buyAvailableFlag: Boolean,
+    val classCode: String,
+    val countryOfRisk: String,
+    val countryOfRiskName: String,
+    val currency: String,
+    val exchange: String,
+    val figi: String,
+    val focusType: String,
+    val forIisFlag: Boolean,
+    val forQualInvestorFlag: Boolean,
+    val isin: String,
+    val liquidityFlag: Boolean,
+    val lot: Int,
+    val minPriceIncrement: MinPriceIncrementTinkoffResponse? = null,
+    val name: String,
+    val otcFlag: Boolean,
+    val positionUid: String,
+    val realExchange: String,
+    val rebalancingFreq: String,
+    val sector: String,
+    val sellAvailableFlag: Boolean,
+    val shortEnabledFlag: Boolean,
+    val ticker: String,
+    val tradingStatus: String,
+    val uid: String,
+    val weekendFlag: Boolean,
+)
+
+fun EtfTinkoffResponse.toEtfDTO(
+    brand_id: Long,
+    tradingStatusId: Long,
+    realExchangeId: Long,
+): EtfDTO =
+    EtfDTO(
+        figi = this.figi,
+        ticker = this.ticker,
+        classCode = this.classCode,
+        isin = this.isin,
+        lot = this.lot.toLong(),
+        currency = this.currency,
+        shortEnabledFlag = this.shortEnabledFlag,
+        name = this.name,
+        exchange = this.exchange,
+        focusType = this.focusType,
+        countryOfRisk = this.countryOfRisk,
+        countryOfRiskName = this.countryOfRiskName,
+        sector = this.sector,
+        rebalancingFreq = this.rebalancingFreq,
+        otcFlag = this.otcFlag,
+        buyAvailableFlag = this.buyAvailableFlag,
+        sellAvailableFlag = this.sellAvailableFlag,
+        minPriceIncrement_units = this.minPriceIncrement?.units,
+        minPriceIncrement_nano = this.minPriceIncrement?.nano?.toLong(),
+        apiTradeAvailableFlag = this.apiTradeAvailableFlag,
+        uid = uid,
+        realExchange = this.realExchange,
+        positionUid = this.positionUid,
+        assetUid = this.assetUid,
+        forIisFlag = this.forIisFlag,
+        forQualInvestorFlag = this.forQualInvestorFlag,
+        weekendFlag = this.weekendFlag,
+        blockedTcaFlag = this.blockedTcaFlag,
+        liquidityFlag = this.liquidityFlag,
+        brand_id = brand_id,
+        tradingStatusId = tradingStatusId,
+        realExchangeId = realExchangeId,
+    )

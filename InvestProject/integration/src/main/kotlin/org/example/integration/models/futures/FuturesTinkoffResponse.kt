@@ -1,0 +1,116 @@
+@file:UseSerializers(InstantSerializer::class)
+
+package org.example.integration.models.futures
+
+import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.UseSerializers
+import org.example.integration.dataBase.futures.FuturesDTO
+import org.example.integration.models.BrandTinkoffResponse
+import org.example.integration.utils.InstantSerializer
+import utils.convertToDouble
+
+@Serializable
+data class FuturesTinkoffResponse(
+    val apiTradeAvailableFlag: Boolean,
+    val assetType: String,
+    val basicAsset: String,
+    val basicAssetPositionUid: String,
+    val basicAssetSize: BasicAssetSize,
+    val blockedTcaFlag: Boolean,
+    val brand: BrandTinkoffResponse,
+    val buyAvailableFlag: Boolean,
+    val classCode: String,
+    val countryOfRisk: String,
+    val countryOfRiskName: String,
+    val currency: String,
+//    val dlong: Dlong,
+//    val dlongMin: DlongMin,
+//    val dshort: Dshort,
+//    val dshortMin: DshortMin,
+    val exchange: String,
+    val expirationDate: String,
+    val figi: String,
+    @Serializable(with = InstantSerializer::class)
+    val first1dayCandleDate: Instant?,
+    @Serializable(with = InstantSerializer::class)
+    val first1minCandleDate: Instant?,
+    val firstTradeDate: String,
+    val forIisFlag: Boolean,
+    val forQualInvestorFlag: Boolean,
+    val futuresType: String,
+    val initialMarginOnBuy: InitialMarginOnBuy,
+    val initialMarginOnSell: InitialMarginOnSell,
+//    val klong: Klong,
+//    val kshort: Kshort,
+    val lastTradeDate: String,
+    val lot: Long,
+    val minPriceIncrement: MinPriceIncrement?,
+    val minPriceIncrementAmount: MinPriceIncrementAmount?,
+    val name: String,
+    val otcFlag: Boolean,
+    val positionUid: String,
+    val realExchange: String,
+    val sector: String,
+    val sellAvailableFlag: Boolean,
+    val shortEnabledFlag: Boolean,
+    val ticker: String,
+    val tradingStatus: String,
+    val uid: String,
+    val weekendFlag: Boolean,
+)
+
+fun FuturesTinkoffResponse.toFuturesDTO(
+    currency: String,
+    brand_id: Long,
+    tradingStatusId: Long,
+    realExchangeId: Long,
+): FuturesDTO =
+    FuturesDTO(
+        figi = this.figi,
+        ticker = this.ticker,
+        classCode = this.classCode,
+        lot = this.lot,
+        currency = currency,
+//        klong = this.klong.convert(),
+//        kshort = this.kshort.convert(),
+//        dlong = this.dlong.convertToDouble(),
+//        dshort = this.dshort.convertToDouble(),
+//        dlongMin = this.dlongMin.convertToDouble(),
+//        dshortMin = this.dshortMin.convertToDouble(),
+        shortEnabledFlag = this.shortEnabledFlag,
+        name = this.name,
+        exchange = this.exchange,
+        firstTradeDate = this.firstTradeDate,
+        lastTradeDate = this.lastTradeDate,
+        futuresType = this.futuresType,
+        assetType = this.assetType,
+        basicAsset = this.basicAsset,
+        basicAssetSize = this.basicAssetSize.convertToDouble(),
+        countryOfRisk = this.countryOfRisk,
+        countryOfRiskName = this.countryOfRiskName,
+        sector = this.sector,
+        expirationDate = this.expirationDate,
+        tradingStatusId = tradingStatusId,
+        otcFlag = this.otcFlag,
+        buyAvailableFlag = this.buyAvailableFlag,
+        sellAvailableFlag = this.sellAvailableFlag,
+        minPriceIncrement = this.minPriceIncrement?.convertToDouble() ?: 0.0,
+        apiTradeAvailableFlag = this.apiTradeAvailableFlag,
+        uid = this.uid,
+        realExchangeId = realExchangeId,
+        positionUid = this.positionUid,
+        basicAssetPositionUid = this.basicAssetPositionUid,
+        forIisFlag = this.forIisFlag,
+        forQualInvestorFlag = this.forQualInvestorFlag,
+        weekendFlag = this.weekendFlag,
+        blockedTcaFlag = this.blockedTcaFlag,
+        first1minCandleDate = this.first1minCandleDate.toString(),
+        first1dayCandleDate = this.first1dayCandleDate.toString(),
+        initialMarginOnBuy_currency_name = this.initialMarginOnBuy.currency,
+        initialMarginOnBuy = this.initialMarginOnBuy.convertToDouble(),
+        initialMarginOnSell_currency_name = this.initialMarginOnSell.currency,
+        initialMarginOnSell = this.initialMarginOnSell.convertToDouble(),
+        minPriceIncrementAmount = this.minPriceIncrementAmount?.convertToDouble() ?: 0.0,
+        brand_id = brand_id,
+    )
