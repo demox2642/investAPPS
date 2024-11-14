@@ -73,7 +73,7 @@ object Futures : Table("futures") {
                     it[shortEnabledFlag] = futuresDTO.shortEnabledFlag
                     it[name] = futuresDTO.name
                     it[exchange] = futuresDTO.exchange
-                    it[firstTradeDate] = futuresDTO.firstTradeDate
+                    it[firstTradeDate] = futuresDTO.firstTradeDate ?: ""
                     it[lastTradeDate] = futuresDTO.lastTradeDate
                     it[futuresType] = futuresDTO.futuresType
                     it[assetType] = futuresDTO.assetType
@@ -130,7 +130,7 @@ object Futures : Table("futures") {
                     it[shortEnabledFlag] = futuresDTO.shortEnabledFlag
                     it[name] = futuresDTO.name
                     it[exchange] = futuresDTO.exchange
-                    it[firstTradeDate] = futuresDTO.firstTradeDate
+                    it[firstTradeDate] = futuresDTO.firstTradeDate ?: ""
                     it[lastTradeDate] = futuresDTO.lastTradeDate
                     it[futuresType] = futuresDTO.futuresType
                     it[assetType] = futuresDTO.assetType
@@ -236,14 +236,12 @@ object Futures : Table("futures") {
 
     fun equalsFuturesDTO(futuresDTO: FuturesDTO) {
         val databaseSearch = getFutures(futuresDTO.uid)
-        val result =
-            if (databaseSearch.isSuccess) {
-                updateFutures(futuresDTO)
-            } else {
-                insertFutures(futuresDTO)
-            }
 
-        println(result)
+        if (databaseSearch.isSuccess) {
+            updateFutures(futuresDTO)
+        } else {
+            insertFutures(futuresDTO)
+        }
     }
 
     fun getFuturesList(): Response<List<FuturesDTO>> =

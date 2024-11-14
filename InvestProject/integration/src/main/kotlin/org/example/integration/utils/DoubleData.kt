@@ -1,4 +1,4 @@
-package utils
+package org.example.integration.utils
 
 interface DoubleData {
     val nano: Long

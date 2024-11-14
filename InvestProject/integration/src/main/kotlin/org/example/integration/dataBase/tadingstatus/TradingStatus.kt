@@ -1,5 +1,6 @@
 package org.example.integration.dataBase.tadingstatus
 
+import org.example.integration.dataBase.error_log.ErrorLog
 import org.example.integration.utils.Settings
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
@@ -25,6 +26,7 @@ object TradingStatus : Table("tradingstatus") {
             }
             ResponseDB.Success(data = true)
         } catch (e: Exception) {
+            ErrorLog.insertErrorLog(errorLog = "RealExchangeUpdate ERROR: ${e.message!!}")
             ResponseDB.Failed(message = e.message!!)
         }
 
@@ -44,6 +46,7 @@ object TradingStatus : Table("tradingstatus") {
                 )
             }
         } catch (e: Exception) {
+            ErrorLog.insertErrorLog(errorLog = "RealExchangeUpdate ERROR: ${e.message!!}")
             Response(
                 success = false,
                 error = ResponseError(errorCode = 42, errorMessage = e.message.toString()),

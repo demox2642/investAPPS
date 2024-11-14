@@ -1,5 +1,6 @@
 package org.example.integration.data.realexchange
 
+import org.example.integration.dataBase.error_log.ErrorLog
 import org.example.integration.dataBase.realexchange.Realexchange
 import org.example.integration.dataBase.realexchange.RealexchangeDTO
 import org.example.integration.dataBase.realexchange.RealexchangeDTOResponse
@@ -15,10 +16,10 @@ class RealExchangeRepositoryImpl : RealExchangeRepository {
 
     override suspend fun getRealExchangeList(): Response<List<RealexchangeDTOResponse>> = Realexchange.getRealexchangeList()
 
-    override suspend fun insertRealExchangeList(list: List<String>): String {
+    override suspend fun insertRealExchangeList(list: List<String>) {
         val realExchangeResponse = list.toSet()
         val realExchangeDB = Realexchange.getRealexchangeList()
-        return if (realExchangeDB.isSuccess) {
+        if (realExchangeDB.isSuccess) {
             val realExchangeDBList = realExchangeDB.response?.map { it.realexchangeValue }
 
             if (realExchangeDBList!!.containsAll(realExchangeResponse)) {
@@ -36,7 +37,7 @@ class RealExchangeRepositoryImpl : RealExchangeRepository {
             }
             "RealExchangeUpdate COMPLETE"
         } else {
-            "RealExchangeUpdate ERROR: ${realExchangeDB.error}"
+            ErrorLog.insertErrorLog(errorLog = "RealExchangeUpdate ERROR: ${realExchangeDB.error}")
         }
     }
 }

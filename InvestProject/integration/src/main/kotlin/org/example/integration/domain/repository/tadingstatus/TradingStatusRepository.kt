@@ -12,5 +12,5 @@ interface TradingStatusRepository {
 
     suspend fun getTradingStatusList(): Response<List<TradingStatusDTOResponse>>
 
-    suspend fun insertTradingStatusList(list: List<String>): String
+    suspend fun insertTradingStatusList(list: List<String>)
 }

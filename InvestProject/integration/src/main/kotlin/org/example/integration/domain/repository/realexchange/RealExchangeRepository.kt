@@ -12,5 +12,5 @@ interface RealExchangeRepository {
 
     suspend fun getRealExchangeList(): Response<List<RealexchangeDTOResponse>>
 
-    suspend fun insertRealExchangeList(list: List<String>): String
+    suspend fun insertRealExchangeList(list: List<String>)
 }

@@ -1,8 +1,8 @@
 package org.example.integration.models.futures
 
 import kotlinx.serialization.Serializable
-import utils.DoubleData
-import utils.convertToDouble
+import org.example.integration.utils.DoubleData
+import org.example.integration.utils.convertToDouble
 
 @Serializable
 data class MinPriceIncrementAmount(

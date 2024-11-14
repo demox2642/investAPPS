@@ -1,8 +1,10 @@
 package org.example.integration.data.tadingstatus
 
+import org.example.integration.dataBase.error_log.ErrorLog
 import org.example.integration.dataBase.tadingstatus.TradingStatus
 import org.example.integration.dataBase.tadingstatus.TradingStatusDTO
 import org.example.integration.dataBase.tadingstatus.TradingStatusDTOResponse
+import org.example.integration.dataBase.update_log.UpdateLog
 import org.example.integration.domain.repository.tadingstatus.TradingStatusRepository
 import ru.demox_bank.utils.ResponseDB
 import utils.Response
@@ -16,11 +18,11 @@ class TradingStatusRepositoryImpl : TradingStatusRepository {
 
     override suspend fun getTradingStatusList(): Response<List<TradingStatusDTOResponse>> = TradingStatus.getTradingStatusList()
 
-    override suspend fun insertTradingStatusList(list: List<String>): String {
+    override suspend fun insertTradingStatusList(list: List<String>) {
         val tradingStatusResponse = list.toSet()
         val tradingStatusDB = TradingStatus.getTradingStatusList()
 
-        return if (tradingStatusDB.isSuccess) {
+        if (tradingStatusDB.isSuccess) {
             val tradingStatusDBList = tradingStatusDB.response?.map { it.name }
             if (tradingStatusDBList!!.containsAll(tradingStatusResponse)) {
                 println("UPDATE TradingStatus - no new value")
@@ -35,10 +37,10 @@ class TradingStatusRepositoryImpl : TradingStatusRepository {
                     }
                 }
             }
-            "TradingStatusUpdate COMPLETE"
+
+            UpdateLog.insertUpdateLog("TradingStatusUpdate COMPLETE")
         } else {
-            println(tradingStatusDB.error)
-            "TradingStatusUpdate ERROR: ${tradingStatusDB.error}"
+            ErrorLog.insertErrorLog(errorLog = "TradingStatusUpdate ERROR: ${tradingStatusDB.error}")
         }
     }
 }

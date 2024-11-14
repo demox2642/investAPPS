@@ -16,5 +16,5 @@ interface BrandRepository {
 
     suspend fun getBrandList(): Response<List<BrandDTOResponse>>
 
-    suspend fun updateBrandList(brandList: List<BrandDTO>): String
+    suspend fun updateBrandList(brandList: List<BrandDTO>)
 }

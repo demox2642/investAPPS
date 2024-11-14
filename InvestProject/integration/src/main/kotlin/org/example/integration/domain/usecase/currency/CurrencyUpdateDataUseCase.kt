@@ -17,12 +17,12 @@ class CurrencyUpdateDataUseCase(
     suspend fun updateCurrencyData() {
         val serverResponse = currencyRepository.getCurrencyFromTinkoffServer()
 
-        val realExchangeUpdateResult = realExchangeRepository.insertRealExchangeList(serverResponse.instruments.map { it.realExchange })
-        println(realExchangeUpdateResult)
-        val tradingStatusUpdateResult = tradingStatusRepository.insertTradingStatusList(serverResponse.instruments.map { it.tradingStatus })
-        println(tradingStatusUpdateResult)
-        val updateBrandResult = brandRepository.updateBrandList(serverResponse.instruments.map { it.brand.toBrandDTO() })
-        println(updateBrandResult)
+        realExchangeRepository.insertRealExchangeList(serverResponse.instruments.map { it.realExchange })
+
+        tradingStatusRepository.insertTradingStatusList(serverResponse.instruments.map { it.tradingStatus })
+
+        brandRepository.updateBrandList(serverResponse.instruments.map { it.brand.toBrandDTO() })
+
         val currencyResponse =
             serverResponse.instruments
                 .map { currencyTinkoff ->

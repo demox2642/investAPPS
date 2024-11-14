@@ -15,6 +15,7 @@ application {
 
 dependencies {
     implementation(projects.shared)
+    implementation(project(":utils"))
     implementation(libs.logback)
     testImplementation(libs.ktor.server.tests)
     testImplementation(libs.kotlin.test.junit)

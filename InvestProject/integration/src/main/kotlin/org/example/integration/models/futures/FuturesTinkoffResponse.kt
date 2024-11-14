@@ -8,7 +8,7 @@ import kotlinx.serialization.UseSerializers
 import org.example.integration.dataBase.futures.FuturesDTO
 import org.example.integration.models.BrandTinkoffResponse
 import org.example.integration.utils.InstantSerializer
-import utils.convertToDouble
+import org.example.integration.utils.convertToDouble
 
 @Serializable
 data class FuturesTinkoffResponse(

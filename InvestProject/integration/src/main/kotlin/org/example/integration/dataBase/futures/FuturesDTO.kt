@@ -15,7 +15,7 @@ data class FuturesDTO(
     val shortEnabledFlag: Boolean,
     val name: String,
     val exchange: String,
-    val firstTradeDate: String,
+    val firstTradeDate: String?,
     val lastTradeDate: String,
     val futuresType: String,
     val assetType: String,

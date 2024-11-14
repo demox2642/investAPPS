@@ -3,6 +3,8 @@ package org.example.integration.data.brand
 import org.example.integration.dataBase.brand.Brand
 import org.example.integration.dataBase.brand.BrandDTO
 import org.example.integration.dataBase.brand.BrandDTOResponse
+import org.example.integration.dataBase.error_log.ErrorLog
+import org.example.integration.dataBase.update_log.UpdateLog
 import org.example.integration.domain.repository.brand.BrandRepository
 import ru.demox_bank.utils.ResponseDB
 import utils.Response
@@ -18,16 +20,17 @@ class BrandRepositoryImpl : BrandRepository {
 
     override suspend fun getBrandList(): Response<List<BrandDTOResponse>> = Brand.getBrandList()
 
-    override suspend fun updateBrandList(brandList: List<BrandDTO>): String {
+    override suspend fun updateBrandList(brandList: List<BrandDTO>)  {
         val brandDB = Brand.getBrandList()
 
-        return if (brandDB.isSuccess) {
+        if (brandDB.isSuccess) {
             brandList.forEach {
                 Brand.equalsBrandDTO(it)
             }
-            "Brand UPDATE COMPLETE"
+
+            UpdateLog.insertUpdateLog("Brand UPDATE COMPLETE")
         } else {
-            "Brand UPDATE ERROR ${brandDB.error}"
+            ErrorLog.insertErrorLog(errorLog = "BrandUpdate ERROR: ${brandDB.error}")
         }
     }
 }

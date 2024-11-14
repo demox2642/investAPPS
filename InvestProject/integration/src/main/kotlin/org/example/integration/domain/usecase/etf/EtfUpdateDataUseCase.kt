@@ -21,20 +21,15 @@ class EtfUpdateDataUseCase(
     suspend fun updateEtfData() {
         val serverResponse = etfRepository.getEtfFromTinkoffServer()
 
-        val realExchangeUpdateResult =
-            realExchangeRepository.insertRealExchangeList(serverResponse.instruments.map { it.realExchange })
-        println(realExchangeUpdateResult)
-        val tradingStatusUpdateResult =
-            suspendedTransactionAsync {
-                tradingStatusRepository.insertTradingStatusList(serverResponse.instruments.map { it.tradingStatus })
-            }.await()
+        realExchangeRepository.insertRealExchangeList(serverResponse.instruments.map { it.realExchange })
 
-        println(tradingStatusUpdateResult)
-        val updateBrandResult =
-            suspendedTransactionAsync {
-                brandRepository.updateBrandList(serverResponse.instruments.map { it.brand.toBrandDTO() })
-            }.await()
-        println(updateBrandResult)
+        suspendedTransactionAsync {
+            tradingStatusRepository.insertTradingStatusList(serverResponse.instruments.map { it.tradingStatus })
+        }.await()
+
+        suspendedTransactionAsync {
+            brandRepository.updateBrandList(serverResponse.instruments.map { it.brand.toBrandDTO() })
+        }.await()
 
         val etfResponse = mutableSetOf<EtfDTO>()
 

@@ -1,0 +1,88 @@
+package org.example.integration.models.shares
+
+import kotlinx.serialization.Serializable
+import org.example.integration.dataBase.shares.SharesDTO
+import org.example.integration.models.BrandTinkoffResponse
+import org.example.integration.models.MinPriceIncrementTinkoffResponse
+import org.joda.time.DateTime
+
+@Serializable
+data class SharesTinkoffResponse(
+    val apiTradeAvailableFlag: Boolean,
+    val assetUid: String,
+    val blockedTcaFlag: Boolean,
+    val brand: BrandTinkoffResponse,
+    val buyAvailableFlag: Boolean,
+    val classCode: String,
+    val countryOfRisk: String,
+    val countryOfRiskName: String,
+    val currency: String,
+    val divYieldFlag: Boolean,
+    val exchange: String,
+    val figi: String,
+    val forIisFlag: Boolean,
+    val forQualInvestorFlag: Boolean,
+    val instrumentExchange: String,
+    val ipoDate: String?,
+    val isin: String,
+    val issueSize: String,
+    val issueSizePlan: String,
+    val liquidityFlag: Boolean,
+    val lot: Int,
+    val name: String,
+    val nominal: MinPriceIncrementTinkoffResponse? = null,
+    val otcFlag: Boolean,
+    val positionUid: String,
+    val realExchange: String,
+    val sector: String,
+    val sellAvailableFlag: Boolean,
+    val shareType: String,
+    val shortEnabledFlag: Boolean,
+    val ticker: String,
+    val tradingStatus: String,
+    val uid: String,
+    val weekendFlag: Boolean,
+)
+
+fun SharesTinkoffResponse.sharesTinkoffResponseToSharesDTO(
+    brand_id: Long,
+    tradingStatusId: Long,
+    realExchangeId: Long,
+): SharesDTO =
+    SharesDTO(
+        apiTradeAvailableFlag = this.apiTradeAvailableFlag,
+        assetUid = this.assetUid,
+        blockedTcaFlag = this.blockedTcaFlag,
+        brand_id = brand_id,
+        buyAvailableFlag = this.buyAvailableFlag,
+        classCode = this.classCode,
+        countryOfRisk = this.countryOfRisk,
+        countryOfRiskName = this.countryOfRiskName,
+        currency = this.currency,
+        divYieldFlag = this.divYieldFlag,
+        exchange = this.exchange,
+        figi = this.figi,
+        forIisFlag = this.forIisFlag,
+        forQualInvestorFlag = this.forQualInvestorFlag,
+        instrumentExchange = this.instrumentExchange,
+        ipoDate = DateTime.now(),
+        isin = this.isin,
+        issueSize = this.issueSize,
+        issueSizePlan = this.issueSizePlan,
+        liquidityFlag = this.liquidityFlag,
+        lot = this.lot,
+        name = this.name,
+        nominal_units = this.nominal?.units,
+        nominal_nano = this.nominal?.nano?.toLong(),
+        otcFlag = this.otcFlag,
+        positionUid = this.positionUid,
+        realexchange_id = realExchangeId,
+        sector = this.sector,
+        sellAvailableFlag = this.sellAvailableFlag,
+        shareType = this.shareType,
+        shortEnabledFlag = this.shortEnabledFlag,
+        ticker = this.ticker,
+        tradingstatus_id = tradingStatusId,
+        uid = this.uid,
+        weekendFlag = this.weekendFlag,
+    )

@@ -10,10 +10,13 @@ import org.example.integration.data.etf.EtfRepositoryImpl
 import org.example.integration.data.futures.FuturesApi
 import org.example.integration.data.futures.FuturesRepositoryImpl
 import org.example.integration.data.realexchange.RealExchangeRepositoryImpl
+import org.example.integration.data.shares.SharesApi
+import org.example.integration.data.shares.SharesRepositoryImpl
 import org.example.integration.data.tadingstatus.TradingStatusRepositoryImpl
 import org.example.integration.domain.usecase.currency.CurrencyUpdateDataUseCase
 import org.example.integration.domain.usecase.etf.EtfUpdateDataUseCase
 import org.example.integration.domain.usecase.futures.FuturesUpdateDataUseCase
+import org.example.integration.domain.usecase.shares.SharesUpdateDataUseCase
 import org.jetbrains.exposed.sql.Database
 import java.util.Calendar
 
@@ -69,9 +72,11 @@ private suspend fun startUpdate() {
     val currencyApi = CurrencyApi()
     val currencyRepository = CurrencyRepositoryImpl(currencyApi)
     val etfApi = EtfApi()
+    val sharesApi = SharesApi()
     val etfRepository = EtfRepositoryImpl(etfApi)
     val futuresApi = FuturesApi()
     val futuresRepository = FuturesRepositoryImpl(futuresApi)
+    val sharesRepository = SharesRepositoryImpl(sharesApi)
 
     CurrencyUpdateDataUseCase(
         brandRepository = brandRepository,
@@ -93,6 +98,13 @@ private suspend fun startUpdate() {
         tradingStatusRepository = tradingStatusRepository,
         futuresRepository = futuresRepository,
     ).updateFuturesData()
+
+    SharesUpdateDataUseCase(
+        brandRepository = brandRepository,
+        realExchangeRepository = realExchangeRepository,
+        tradingStatusRepository = tradingStatusRepository,
+        sharesRepository = sharesRepository,
+    ).updateSharesData()
 
     println("update Fin ${calendar.time}")
     timeOut()
